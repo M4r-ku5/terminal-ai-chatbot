@@ -8,6 +8,8 @@ A terminal-based chatbot that uses the OpenRouter API to interact with AI langua
 - pip (comes with Python)
 - An OpenRouter API key (get one at https://openrouter.ai/keys)
 - python-dotenv (installed via pip)
+- prompt_toolkit
+- rich
 
 ## Installation
 
@@ -19,17 +21,12 @@ A terminal-based chatbot that uses the OpenRouter API to interact with AI langua
 
 2. Install the required dependencies:
    ```bash
-   pip install requests python-dotenv
+   pip install requests python-dotenv prompt_toolkit rich
    ```
 
 3. Create a `.env` file in the project root and add your API key:
    ```bash
    OPENROUTER_API_KEY=your_api_key_here
-   ```
-
-   **CMD:**
-   ```cmd
-   set OPENROUTER_API_KEY=your_api_key_here
    ```
 
 ## Usage
@@ -38,7 +35,16 @@ Run the chatbot:
    ```bash
    python main.py
    ```
-Type your message and press Enter to get a response from the AI. Type `/exit` to quit. The AI retains context from previous message in the conversation.
+
+An interactive menu will appear. Use the __arrow keys__ to navigate, __Enter__ to confirm, and __q__ or __Ctrl+c__ to quit.
+
+Currently only __"New chat"__ is implemented. Selecting it starts an interactive chat session. Type `/exit` to return to the menu.
+
+## Features
+
+- Interactive menu with arrow-key navigation
+- Conversational context: the AI remembers previous messages
+- Environment variable configuration via `.env` file
 
 ## Model
 
