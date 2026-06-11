@@ -38,12 +38,16 @@ Run the chatbot:
 
 An interactive menu will appear. Use the __arrow keys__ to navigate, __Enter__ to confirm, and __q__ or __Ctrl+c__ to quit.
 
-Currently only __"New chat"__ is implemented. Selecting it starts an interactive chat session. Type `/exit` to return to the menu.
+- __New chat__: starts an interactive chat session. Type `/exit` to return to the menu.
+- __Load chat__: lists saved chats; select one to continue the conversation, or q/Ctrl+c to return to the menu.
+- __Settings__: (not yet implemented).
+
 
 ## Features
 
 - Interactive menu with arrow-key navigation
 - Conversational context: the AI remembers previous messages
+- Persistent chat saving and loading (JSON files in chats/)
 - Environment variable configuration via `.env` file
 
 ## Model

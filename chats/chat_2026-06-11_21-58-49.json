@@ -1,0 +1,10 @@
+[
+  {
+    "role": "user",
+    "content": "Ciao, questo è un test di salvataggio chat"
+  },
+  {
+    "role": "assistant",
+    "content": "\n\nSì, è un testdi backup chat.  \n\nSe hai bisogno di verificare il funzionamento o di eseguire un backup specifico, dimmi come posso aiutarti!"
+  }
+]
