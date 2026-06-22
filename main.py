@@ -45,6 +45,16 @@ def chat(initial_messages=None, filename=None):
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filename = f"chats/chat_{timestamp}.json"
 
+    if messages:
+        last_messages = messages[-20:]
+        for m in last_messages:
+            if m["role"] == "user":
+                 print("You:", end=" ")
+            else:
+                print("AI:", end=" ")
+            print(m["content"].lstrip('\n'))
+
+
     # Chat loop
     while True:
         user_message = input("You ('/exit' to quit): ")
