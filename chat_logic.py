@@ -9,6 +9,7 @@ from config import load_config
 # Load environment variables from .env file
 load_dotenv()
 
+# Get the OpenRouter API key from environment variables
 API_KEY = os.environ.get("OPENROUTER_API_KEY")
 if not API_KEY:
     print("ERROR: OPENROUTER_API_KEY not found.")
@@ -34,6 +35,7 @@ def chat(initial_messages=None, filename=None, config=None):
             last_messages = messages[-config["history_length"]:]
         else:
             last_messages = []
+
 
         for m in last_messages:
 
@@ -73,6 +75,7 @@ def chat(initial_messages=None, filename=None, config=None):
         data = response.json()
         ai_message = data["choices"][0]["message"]["content"]
         print(f"AI: {ai_message}")
+
         messages.append({"role": "assistant", "content": ai_message})
         save_chat(messages, filename)
 

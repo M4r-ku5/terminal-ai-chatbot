@@ -40,8 +40,10 @@ An interactive menu will appear. Use the __arrow keys__ to navigate, __Enter__ t
 
 - __New chat__: starts an interactive chat session. Type `/exit` to return to the menu.
 - __Load chat__: lists saved chats; select one to continue the conversation, or q/Ctrl+c to return to the menu.
-- __Settings__: (not yet implemented).
-
+- __Settings__: opens a submenu where you can:
+    - Change the model ID (e.g. `arcee-ai/trinity-mini`)
+    - Set how many previous messages to load (0‑50)
+    - Enable/disable auto‑compact (summarizes old messages when token usage grows)
 
 ## Features
 
@@ -49,7 +51,8 @@ An interactive menu will appear. Use the __arrow keys__ to navigate, __Enter__ t
 - Conversational context: the AI remembers previous messages
 - Persistent chat saving and loading (JSON files in chats/)
 - Environment variable configuration via `.env` file
+- Adjustable model selection, history length, and auto‑compact via Settings menu
 
 ## Model
 
-By default, the chatbot uses `arcee-ai/trinity-mini` (a free model available on OpenRouter). You can change the model in `main.py` by editing the `"model"` field in the request body.
+By default, the chatbot uses `arcee-ai/trinity-mini` (a free model available on OpenRouter). You can change the model via the **Settings** menu → “Select model”.

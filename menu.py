@@ -10,16 +10,16 @@ from prompt_toolkit.styles import Style
 from datetime import datetime
 from config import load_config, save_config
 
+
 # Initialize Rich console for styled terminal output
 console = Console()
-
 
 def run_menu(options):
     """Run interactive menu loop using prompt_toolkit."""
 
     if options is None:
-        options = ["New chat", "Load chat", "Settings", "Exit"]
-    
+        options = ["New chat", "Load chat", "Settings", "Quit"]
+
     selected = 0
 
     # Create a registry that maps keys to handler functions
@@ -69,7 +69,7 @@ def run_menu(options):
         "unselected": "white",
     })
 
-    # Application: the main TUI Loop. app.run() blocks until exit() is called.
+    # Application: the main TUI Loop. app.run() blocks until exit() is called
     app = Application(
         layout=layout,
         key_bindings=kb,
@@ -118,19 +118,28 @@ def settings_menu(config):
     """Show the settings submenu."""
     
     while True:
-        options = [f"Model: {config['model']}",
+        options = ["..",
+                   f"Model: {config['model']}",
                    f"History length: {config['history_length']}",
                    f"Auto-compact: {'Yes' if config['auto_compact'] is True else 'No'}",
-                   "Back"]
+                   ]
         selected_index = run_menu(options)
         if selected_index is None:
             break
+
+        # Back
         if selected_index == 0:
+            break
+
+        # Change model
+        elif selected_index == 1:
             new_model = input("Model ID: ").strip()
             if new_model:
                 config["model"] = new_model
                 save_config(config)
-        elif selected_index == 1:
+
+        # Change history length
+        elif selected_index == 2:
             while True:
                 try:
                     new_history_length = input("New history length (0-50): ").strip()
@@ -145,9 +154,10 @@ def settings_menu(config):
                         print("You must insert a value between 0 and 50.")
                 except ValueError:
                     print("Please insert an integer number.")
-        elif selected_index == 2:
+        
+        # Toggle auto-compact
+        elif selected_index == 3:
             config["auto_compact"] = not config["auto_compact"]
             save_config(config)
-        elif selected_index == 3:
-            break
+        
     return config

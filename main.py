@@ -17,9 +17,11 @@ if __name__ == "__main__":
     
     config = load_config()
 
+    # Main menu loop
     while True:
+
         # Show the menu and run the selected action
-        result = run_menu(["New chat", "Load chat", "Settings", "Exit"])
+        result = run_menu(["New chat", "Load chat", "Settings", "Quit"])
 
         # Index 0 = "New chat": start an interactive chat session
         if result == 0:
@@ -33,6 +35,7 @@ if __name__ == "__main__":
                 initial_messages = load_chat_messages(filepath)
                 chat(initial_messages=initial_messages, filename=filepath, config=config)
 
+        # Index 2 = "Settings": opens settings menu
         elif result == 2:
             config = settings_menu(config)
 

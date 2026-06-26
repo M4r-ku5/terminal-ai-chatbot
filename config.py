@@ -1,10 +1,10 @@
 import os
 import json
 
+
 DEFAULT_MODEL = "arcee-ai/trinity-mini"
 DEFAULT_HISTORY_LENGTH = 20
 DEFAULT_AUTO_COMPACT = False
-
 
 def load_config():
     """Load settings from config.json. Return a dict with the settings."""
@@ -16,6 +16,7 @@ def load_config():
             "auto_compact": DEFAULT_AUTO_COMPACT,
         }
     try:
+        # Make sure to set defaults for any missing keys in the config file
         with open(config_path, "r", encoding="utf-8") as f:
             config = json.load(f)
         config.setdefault("model", DEFAULT_MODEL)
