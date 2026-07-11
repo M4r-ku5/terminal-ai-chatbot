@@ -1,0 +1,5 @@
+{
+  "model": "nvidia/nemotron-3-nano-30b-a3b:free",
+  "history_length": 10,
+  "auto_compact": false
+}

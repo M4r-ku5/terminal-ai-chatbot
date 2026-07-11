@@ -2,7 +2,7 @@ import os
 import json
 
 
-DEFAULT_MODEL = "arcee-ai/trinity-mini"
+DEFAULT_MODEL = "nvidia/nemotron-3-nano-30b-a3b:free"
 DEFAULT_HISTORY_LENGTH = 20
 DEFAULT_AUTO_COMPACT = False
 

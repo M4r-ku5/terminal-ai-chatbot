@@ -1,15 +1,12 @@
 # Terminal AI Chatbot
 
-A terminal-based chatbot that uses the OpenRouter API to interact with AI language models directly from the command line.
+A terminal-based AI chatbot with a split-pane Textual interface, using the OpenRouter API to interact with language models directly from the command line.
 
 ## Prerequisites
 
-- Python 3.7+
+- Python 3.8+
 - pip (comes with Python)
 - An OpenRouter API key (get one at https://openrouter.ai/keys)
-- python-dotenv (installed via pip)
-- prompt_toolkit
-- rich
 
 ## Installation
 
@@ -21,7 +18,7 @@ A terminal-based chatbot that uses the OpenRouter API to interact with AI langua
 
 2. Install the required dependencies:
    ```bash
-   pip install requests python-dotenv prompt_toolkit rich
+   pip install requests python-dotenv rich textual
    ```
 
 3. Create a `.env` file in the project root and add your API key:
@@ -32,27 +29,70 @@ A terminal-based chatbot that uses the OpenRouter API to interact with AI langua
 ## Usage
 
 Run the chatbot:
-   ```bash
-   python main.py
-   ```
+```bash
+python app.py
+```
 
-An interactive menu will appear. Use the __arrow keys__ to navigate, __Enter__ to confirm, and __q__ or __Ctrl+c__ to quit.
+A split-pane interface will open:
+- **Left sidebar**: List of saved chats (navigate with ↑/↓)
+- **Right pane**: Chat messages area + input bar at bottom
 
-- __New chat__: starts an interactive chat session. Type `/exit` to return to the menu.
-- __Load chat__: lists saved chats; select one to continue the conversation, or q/Ctrl+c to return to the menu.
-- __Settings__: opens a submenu where you can:
-    - Change the model ID (e.g. `arcee-ai/trinity-mini`)
-    - Set how many previous messages to load (0‑50)
-    - Enable/disable auto‑compact (summarizes old messages when token usage grows)
+### Keybindings
+
+| Key | Action |
+|-----|--------|
+| `↑` / `↓` | Navigate chat list in sidebar |
+| `Enter` / `Ctrl+L` | Load selected chat |
+| `Ctrl+N` | Start new chat |
+| `Ctrl+Q` | Quit application |
+| `Tab` | Switch focus between sidebar and input |
+| Type + `Enter` | Send message (when input focused) |
+
+### Workflow
+
+1. **New chat**: Press `Ctrl+N` → type message → press `Enter` → AI responds → auto-saved
+2. **Load chat**: Navigate sidebar with `↑`/`↓` → press `Enter` or `Ctrl+L` to load
+3. **Switch chats**: Load different chats from sidebar anytime; state is preserved
+4. **Quit**: Press `Ctrl+Q` anytime
 
 ## Features
 
-- Interactive menu with arrow-key navigation
-- Conversational context: the AI remembers previous messages
-- Persistent chat saving and loading (JSON files in chats/)
-- Environment variable configuration via `.env` file
-- Adjustable model selection, history length, and auto‑compact via Settings menu
+- **Split-pane Textual UI**: Sidebar for chat list, main area for conversation
+- **Persistent chats**: Saved as JSON files in `chats/` directory
+- **Conversational context**: Full message history sent to API each turn
+- **Auto-save**: Every message (user + AI) immediately persisted
+- **Configurable**: Model, history length via `config.json` (Settings UI coming soon)
+- **Free model default**: Uses `nvidia/nemotron-3-nano-30b-a3b:free` via OpenRouter
+
+## Configuration
+
+Settings are stored in `config.json`:
+```json
+{
+  "model": "nvidia/nemotron-3-nano-30b-a3b:free",
+  "history_length": 20,
+  "auto_compact": false
+}
+```
+
+- `model`: Any model ID available on OpenRouter
+- `history_length`: Number of previous messages to include (0 = all)
+- `auto_compact`: (Planned) Summarize old messages when token limit approached
+
+## Project Structure
+
+```
+terminal-ai-chatbot/
+├── app.py              # Main Textual application
+├── chat_logic.py       # Chat persistence & API calls
+├── config.py           # Configuration loading/saving
+├── config.json         # User settings
+├── main.py             # Legacy entry point (deprecated)
+├── .env                # API key (not committed)
+├── chats/              # Saved conversations (JSON)
+└── README.md
+```
 
 ## Model
 
-By default, the chatbot uses `arcee-ai/trinity-mini` (a free model available on OpenRouter). You can change the model via the **Settings** menu → “Select model”.
+Default: `nvidia/nemotron-3-nano-30b-a3b:free` (free tier on OpenRouter). Change via `config.json` or future Settings screen.

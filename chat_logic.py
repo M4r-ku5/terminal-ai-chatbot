@@ -97,3 +97,11 @@ def load_chat_messages(filepath):
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"\n[ERROR] Could not load chat '{filepath}': {e}")
         return None
+
+
+def list_chat_files():
+    """Return a sorted list of .json filenames in the chats directory."""
+    if not os.path.isdir("chats"):
+        return []
+    files = [f for f in os.listdir("chats") if f.endswith(".json")]
+    return sorted(files, reverse=True)
