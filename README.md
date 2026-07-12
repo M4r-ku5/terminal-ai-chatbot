@@ -79,20 +79,6 @@ Settings are stored in `config.json`:
 - `history_length`: Number of previous messages to include (0 = all)
 - `auto_compact`: (Planned) Summarize old messages when token limit approached
 
-## Project Structure
-
-```
-terminal-ai-chatbot/
-├── app.py              # Main Textual application
-├── chat_logic.py       # Chat persistence & API calls
-├── config.py           # Configuration loading/saving
-├── config.json         # User settings
-├── main.py             # Legacy entry point (deprecated)
-├── .env                # API key (not committed)
-├── chats/              # Saved conversations (JSON)
-└── README.md
-```
-
 ## Model
 
 Default: `nvidia/nemotron-3-nano-30b-a3b:free` (free tier on OpenRouter). Change via `config.json` or future Settings screen.
