@@ -2,8 +2,9 @@ import os
 import datetime
 import asyncio
 import requests
-from config import load_config
+from config import load_config, save_config
 from chat_logic import list_chat_files, load_chat_messages, save_chat
+from settings import SettingsScreen
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widgets import Header, Footer, ListView, RichLog, Input, ListItem, Label
@@ -29,13 +30,39 @@ class ChatApp(App):
         height: 3;
         dock: bottom;
     }
+    #settings-container {
+        width: 60;
+        height:auto;
+        border: solid $primary;
+        padding: 1 2;
+    }
+    #settings-title {
+        text-align: center;
+        text-style: bold;
+        margin-bottom: 1;
+    }
+    #settings-container Label {
+        margin-top: 1;
+    }
+    #settings-container Input {
+        width: 100%;
+    }
+    #settings-container Switch {
+        margin-top: 1;
+    }
+    #settings-container Horizontal {
+        margin-top: 2;
+        width: 100%;
+        align-horizontal: right;
+    }
     """
 
     BINDINGS = [
         Binding("enter", "load_chat", "Load Chat"),
         Binding("ctrl+l", "load_chat", "Load Chat"),
         Binding("ctrl+n", "new_chat", "New Chat"),
-        Binding("ctrl+q", "quit", "Quit")
+        Binding("ctrl+q", "quit", "Quit"),
+        Binding("ctrl+s", "settings", "Settings")
     ]
     
 
@@ -119,7 +146,17 @@ class ChatApp(App):
                 self.notify("Loading error.", severity="error")
 
 
-    def action_settings(self): ...
+    def action_settings(self) -> None:
+        """Open settings screen."""
+
+        def handle_result(config: dict | None) -> None:
+            if config is not None:
+                self.config = config
+                save_config(config)
+                self.notify("Settings saved.", severity="success")
+        
+        # 'callback=handle_result' defines the function to call when the settings screen is closed
+        self.push_screen(SettingsScreen(self.config), callback=handle_result)
 
 
     def action_new_chat(self): 
