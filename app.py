@@ -1,8 +1,6 @@
-from fileinput import filename
 import os
 import datetime
 import asyncio
-from pyexpat.errors import messages
 import requests
 from config import load_config
 from chat_logic import list_chat_files, load_chat_messages, save_chat
