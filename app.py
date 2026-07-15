@@ -2,6 +2,7 @@ import os
 import datetime
 import asyncio
 import requests
+from dotenv import load_dotenv
 from config import load_config, save_config
 from chat_logic import list_chat_files, load_chat_messages, save_chat
 from settings import SettingsScreen
@@ -10,6 +11,8 @@ from textual.containers import Horizontal, Vertical
 from textual.widgets import Header, Footer, ListView, RichLog, Input, ListItem, Label
 from textual.binding import Binding
 
+
+load_dotenv()
 
 
 class ChatApp(App):
