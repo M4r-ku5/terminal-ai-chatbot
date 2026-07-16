@@ -6,9 +6,10 @@ from dotenv import load_dotenv
 from config import load_config, save_config
 from chat_logic import list_chat_files, load_chat_messages, save_chat
 from settings import SettingsScreen
+from models_cache import get_model_context_length, load_cached_models
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
-from textual.widgets import Header, Footer, ListView, RichLog, Input, ListItem, Label
+from textual.widgets import Header, Footer, ListView, RichLog, Input, ListItem, Label, Static
 from textual.binding import Binding
 
 
@@ -58,6 +59,21 @@ class ChatApp(App):
         width: 100%;
         align-horizontal: right;
     }
+    #bottom-bar {
+        dock: bottom;
+        height: 4;
+    } 
+    #model-indicator {
+        width: 1fr;
+        height: 1;
+        content-align-vertical: middle;
+        padding: 0 1;
+        text-style: bold;
+    }
+    #input-bar {
+        width: 1fr;
+        height: 3;
+    }
     """
 
     BINDINGS = [
@@ -84,7 +100,9 @@ class ChatApp(App):
             with Vertical(id="chat-area"):
                 # markup=True allows for rich text formatting in the log
                 yield RichLog(id="message-log", markup=True)
-                yield Input(placeholder="Write a message...", id="input-bar")
+                with Vertical(id="bottom-bar"):
+                    yield Input(placeholder="Write a message...", id="input-bar")
+                    yield Static("", id="model-indicator")
 
         yield Footer()
     
@@ -98,6 +116,49 @@ class ChatApp(App):
         self.messages = []
         self.populate_chat_list()
         self.title = "Terminal AI Chatbot"
+        self.query_one("#model-indicator", Static).update(f"Model: {self.config['model']}")
+        self.run_worker(self._fetch_and_update_model_info)
+
+
+    async def _fetch_and_update_model_info(self) -> None:
+        """Fetch model context length and update the UI indicator."""
+        
+        model_id = self.config.get("model", "")
+        max_tokens = get_model_context_length(model_id)
+        self._max_tokens = max_tokens
+
+        self.notify(f"Got max_tokens: {max_tokens}", severity="info")
+
+        if max_tokens:
+            self._update_model_indicator(max_tokens)
+
+
+    def _update_model_indicator(self, max_tokens: int | None = None) -> None:
+        """Update the model indicator in the UI with current token usage and max tokens."""
+        
+        if max_tokens is None:
+            max_tokens = getattr(self, "_max_tokens", None)
+
+        tokens = self._estimate_chat_tokens()
+        model = self.config.get("model", "unknown")
+        self.notify(f"MAX TOKENS: {max_tokens}", severity="info")
+        if max_tokens:
+            pct = (tokens / max_tokens) * 100
+
+            # ":," formats the number with commas as thousands separators
+            text = f"Model: {model} | Tokens: ~{tokens:,} / {max_tokens:,} ({pct:.0f}%)"
+        else:
+            text = f"Model: {model} | Tokens: ~{tokens:,}"
+
+        self.query_one("#model-indicator", Static).update(text)
+
+
+    def _estimate_chat_tokens(self) -> int:
+        """Estimate total tokens in the current chat."""
+        
+        from config import estimate_tokens
+        total_chars = sum(len(m.get("content", "")) for m in self.messages)
+        return estimate_tokens(total_chars)
     
 
     def populate_chat_list(self):
@@ -130,6 +191,8 @@ class ChatApp(App):
 
                 self.messages = messages[:]
                 self.current_chat_file = filepath
+                self._update_model_indicator()
+
 
                 # Default value for history_length is 20 if not specified in config
                 history_len = self.config.get("history_length", 20)
@@ -152,14 +215,18 @@ class ChatApp(App):
     def action_settings(self) -> None:
         """Open settings screen."""
 
+        cached_models = load_cached_models()
+        models = list(cached_models.keys()) if cached_models else [self.config["model"]]
+
         def handle_result(config: dict | None) -> None:
             if config is not None:
                 self.config = config
                 save_config(config)
+                self._update_model_indicator()
                 self.notify("Settings saved.", severity="success")
         
         # 'callback=handle_result' defines the function to call when the settings screen is closed
-        self.push_screen(SettingsScreen(self.config), callback=handle_result)
+        self.push_screen(SettingsScreen(self.config, models), callback=handle_result)
 
 
     def action_new_chat(self): 
@@ -169,6 +236,7 @@ class ChatApp(App):
         message_log.clear()
         self.current_chat_file = None
         self.messages = []
+        self._update_model_indicator()
         self.notify("New chat started. Type your message to begin.")
 
 
@@ -199,6 +267,7 @@ class ChatApp(App):
             output_log.write(f"[bold green]AI:[/bold green] {ai_message}\n")
             save_chat(self.messages, self.current_chat_file)
             output_log.scroll_end()
+            self._update_model_indicator()
 
         except Exception as e:
             # If the last message was from the user, remove it to avoid sending it again on retry

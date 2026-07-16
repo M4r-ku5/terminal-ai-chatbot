@@ -36,6 +36,7 @@ python app.py
 A split-pane interface will open:
 - **Left sidebar**: List of saved chats (navigate with ↑/↓)
 - **Right pane**: Chat messages area + input bar at bottom
+- **Bottom bar**: Model name + token usage (used / max + percentage)
 
 ### Keybindings
 
@@ -44,6 +45,7 @@ A split-pane interface will open:
 | `↑` / `↓` | Navigate chat list in sidebar |
 | `Enter` / `Ctrl+L` | Load selected chat |
 | `Ctrl+N` | Start new chat |
+| `Ctrl+S` | Open settings |
 | `Ctrl+Q` | Quit application |
 | `Tab` | Switch focus between sidebar and input |
 | Type + `Enter` | Send message (when input focused) |
@@ -53,6 +55,7 @@ A split-pane interface will open:
 1. **New chat**: Press `Ctrl+N` → type message → press `Enter` → AI responds → auto-saved
 2. **Load chat**: Navigate sidebar with `↑`/`↓` → press `Enter` or `Ctrl+L` to load
 3. **Switch chats**: Load different chats from sidebar anytime; state is preserved
+4. **Settings**: Press `Ctrl+S` → select model, history length, auto-compact (not yet implemented)
 4. **Quit**: Press `Ctrl+Q` anytime
 
 ## Features
@@ -61,6 +64,9 @@ A split-pane interface will open:
 - **Persistent chats**: Saved as JSON files in `chats/` directory
 - **Conversational context**: Full message history sent to API each turn
 - **Auto-save**: Every message (user + AI) immediately persisted
+- **Settings UI**: (`Ctrl+S`): Model selection (searchable dropdown from OpenRouter), history length, auto-compact toggle
+- **Token indicator**: Bottom bar shows model + estimated tokens used / max context window + percentage
+- **Model fetching**: Auto-fetches available text models from OpenRouter API (cached 24h)
 - **Configurable**: Model, history length via `config.json` (Settings UI coming soon)
 - **Free model default**: Uses `nvidia/nemotron-3-nano-30b-a3b:free` via OpenRouter
 
@@ -81,4 +87,4 @@ Settings are stored in `config.json`:
 
 ## Model
 
-Default: `nvidia/nemotron-3-nano-30b-a3b:free` (free tier on OpenRouter). Change via `config.json` or future Settings screen.
+Default: `nvidia/nemotron-3-nano-30b-a3b:free` (free tier on OpenRouter). Change via `Ctrl+S` or `config.json` or future Settings screen.
