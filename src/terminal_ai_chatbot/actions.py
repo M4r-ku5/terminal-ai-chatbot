@@ -116,7 +116,7 @@ async def on_input_submitted(app, event):
     output_log.write(f"[bold cyan]You:[/bold cyan] {user_message}\n")
 
     if app.current_chat_file is None:
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         app.current_chat_file = os.path.join("chats", f"chat_{timestamp}.json")
 
     # API call
