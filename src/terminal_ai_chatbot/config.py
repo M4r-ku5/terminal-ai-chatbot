@@ -40,11 +40,3 @@ def save_config(config):
             json.dump(config, f, indent=2, ensure_ascii=False)
     except Exception as e:
         print(f"\n[ERROR] Failed to save config: {e}")
-
-
-def estimate_tokens(text: str | int) -> int:
-    """Estimate the number of tokens in a given text."""
-    if isinstance(text, int):
-        return text
-    else:
-        return max(1, len(text) // 4)

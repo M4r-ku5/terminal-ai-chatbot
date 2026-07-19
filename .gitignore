@@ -4,3 +4,4 @@ chats/
 ARCHITECTURE.md
 config.json
 cache/
+*.egg-info/

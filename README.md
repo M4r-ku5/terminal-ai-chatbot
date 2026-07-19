@@ -30,7 +30,7 @@ A terminal-based AI chatbot with a split-pane Textual interface, using the OpenR
 
 Run the chatbot:
 ```bash
-python app.py
+python -m terminal_ai_chatbot
 ```
 
 A split-pane interface will open:
@@ -56,7 +56,7 @@ A split-pane interface will open:
 2. **Load chat**: Navigate sidebar with `↑`/`↓` → press `Enter` or `Ctrl+L` to load
 3. **Switch chats**: Load different chats from sidebar anytime; state is preserved
 4. **Settings**: Press `Ctrl+S` → select model, history length, auto-compact (not yet implemented)
-4. **Quit**: Press `Ctrl+Q` anytime
+5. **Quit**: Press `Ctrl+Q` anytime
 
 ## Features
 
@@ -64,7 +64,7 @@ A split-pane interface will open:
 - **Persistent chats**: Saved as JSON files in `chats/` directory
 - **Conversational context**: Full message history sent to API each turn
 - **Auto-save**: Every message (user + AI) immediately persisted
-- **Settings UI**: (`Ctrl+S`): Model selection (searchable dropdown from OpenRouter), history length, auto-compact toggle
+- **Settings UI** (`Ctrl+S`): Model selection (searchable dropdown from OpenRouter), history length, auto-compact toggle
 - **Token indicator**: Bottom bar shows model + estimated tokens used / max context window + percentage
 - **Model fetching**: Auto-fetches available text models from OpenRouter API (cached 24h)
 - **Configurable**: Model, history length via `config.json` (Settings UI coming soon)
