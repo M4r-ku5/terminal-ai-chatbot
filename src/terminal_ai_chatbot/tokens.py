@@ -4,8 +4,12 @@ from textual.widgets import Static
 
 def estimate_tokens(text: str | int) -> int:
     """Estimate the number of tokens in a given text."""
+
+    # if the input is an integer, we assume it's a character count and estimate tokens accordingly
     if isinstance(text, int):
         return max(1, text // 4)
+    
+    # if the input is a string, we estimate tokens based on character count
     else:
         return max(1, len(text) // 4)
     

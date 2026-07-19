@@ -43,10 +43,12 @@ A split-pane interface will open:
 | Key | Action |
 |-----|--------|
 | `↑` / `↓` | Navigate chat list in sidebar |
-| `Enter` / `Ctrl+L` | Load selected chat |
+| `Ctrl+L` | Load selected chat |
 | `Ctrl+N` | Start new chat |
 | `Ctrl+S` | Open settings |
 | `Ctrl+Q` | Quit application |
+| `Ctrl+D` | **Delete selected chat** (with confirmation) |
+| `Ctrl+R` | **Rename selected chat** |
 | `Tab` | Switch focus between sidebar and input |
 | Type + `Enter` | Send message (when input focused) |
 
@@ -57,11 +59,13 @@ A split-pane interface will open:
 3. **Switch chats**: Load different chats from sidebar anytime; state is preserved
 4. **Settings**: Press `Ctrl+S` → select model, history length, auto-compact (not yet implemented)
 5. **Quit**: Press `Ctrl+Q` anytime
+6. **Manage chats**: Select a chat in sidebar → `Ctrl+D` to delete (confirms) / `Ctrl+R` to rename
 
 ## Features
 
 - **Split-pane Textual UI**: Sidebar for chat list, main area for conversation
 - **Persistent chats**: Saved as JSON files in `chats/` directory
+- **Chat management**: Delete (`Ctrl+D`) and rename (`Ctrl+R`) chats from sidebar
 - **Conversational context**: Full message history sent to API each turn
 - **Auto-save**: Every message (user + AI) immediately persisted
 - **Settings UI** (`Ctrl+S`): Model selection (searchable dropdown from OpenRouter), history length, auto-compact toggle

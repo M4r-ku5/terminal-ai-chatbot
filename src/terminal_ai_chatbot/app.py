@@ -7,6 +7,8 @@ from .actions import (
     action_new_chat,
     action_settings,
     on_input_submitted,
+    action_delete_chat,
+    action_rename_chat
 )
 from .tokens import update_model_indicator, estimate_chat_tokens
 from .api import call_api, fetch_and_update_model_info
@@ -26,6 +28,8 @@ class ChatApp(App):
     action_new_chat = action_new_chat
     action_settings = action_settings
     on_input_submitted = on_input_submitted
+    action_delete_chat = action_delete_chat
+    action_rename_chat = action_rename_chat
     update_model_indicator = update_model_indicator
     estimate_chat_tokens = estimate_chat_tokens
     call_api = call_api

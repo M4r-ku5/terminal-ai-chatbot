@@ -15,7 +15,8 @@ CSS = """
     }
     #message-log {
         height: 1fr;
-        text-wrap: wrap
+        width: 100%;
+        text-wrap: wrap;
     }
     #input-bar {
         height: 3;
@@ -61,6 +62,28 @@ CSS = """
         width: 1fr;
         height: 3;
     }
+    #confirm-dialog, #input-dialog {
+        width: 60;
+        height: auto;
+        padding: 1 2;
+        border: solid $primary;
+        background: $surface;
+        align: center middle;
+    }
+    #confirm-message, #input-prompt {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 1;
+    }
+    #confirm-buttons, #input-buttons {
+        width: 100%;
+        align-horizontal: center;
+        margin-top: 1;
+    }
+    #confirm-buttons Button, #input-buttons Button {
+        min-width: 10;
+        margin: 0 1;
+    }
 """
 
 BINDINGS = [
@@ -68,7 +91,9 @@ BINDINGS = [
     Binding("ctrl+l", "load_chat", "Load Chat"),
     Binding("ctrl+n", "new_chat", "New Chat"),
     Binding("ctrl+q", "quit", "Quit"),
-    Binding("ctrl+s", "settings", "Settings")
+    Binding("ctrl+s", "settings", "Settings"),
+    Binding("ctrl+d", "delete_chat", "Delete Chat"),
+    Binding("ctrl+r", "rename_chat", "Rename Chat")
 ]
 
 
